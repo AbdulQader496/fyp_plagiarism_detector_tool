@@ -1,0 +1,142 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+
+    <title>Home</title>
+
+    <!-- Font Icon -->
+    <link
+      rel="stylesheet"
+      href="{% static 'fonts/material-icon/css/material-design-iconic-font.min.css' %}"
+    />
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+    
+  </head>
+  <body>
+    {% if user.is_authenticated %}
+    <h1>Welcome, {{user.username}}</h1>
+
+    <p><a href="{% url 'logout' %}">Log Out</a></p>
+
+
+    <!-- List of uploaded documents -->
+    <div>
+      <container>
+        {% if documents %}
+        <ul>
+        {% for document in documents %}
+            <li><a href="{{ document.docfile.url }}">{{ document.docfile.name }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No documents.</p>
+    {% endif %}
+
+        <!-- Upload form. Note enctype attribute! -->
+        <form action="{% url 'fileupload' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>{{ form.non_field_errors }}</p>
+            <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+            <p>
+                {{ form.docfile.errors }}
+                {{ form.docfile }}
+            </p>  
+            <br> 
+            <table>
+              <tr>
+                <th><input type="submit" name="signin" id="signin" class="form-submit" value="Upload" /></th>
+                <th><input type="submit" name="check" id="check" class="form-submit" value="Check for Plagiarism" /></th>                
+              </tr>
+            </table>       
+            
+        </form>
+      </container>
+    </div>
+
+        
+
+    {% else %}
+    <h1>pls login first</h1>
+    {% endif %} {% csrf_token %}
+  </body>
+</html>
+
+    <!-- <script>
+    
+      var textInFile = document.getElementById("fileinput");
+      
+
+      textInFile.addEventListener("change", textToDisplay, false);
+
+      function textToDisplay() {
+        let fr = new FileReader();
+        fr.onload = function () {
+          document.getElementById("textarea").value = fr.result;
+        };
+        fr.readAsText(this.files[0]);
+        data = fr.value;
+      }
+      
+
+      // var fs = require("fs");
+      //     fs.readFile(textOfFile, function(text){
+      //     var textByLine = text.split("\n")
+      //     console.log(fs)
+      // });
+
+    //   function getText() {
+    //     alert("i am Here 123");
+
+    //     $.post(
+    //       URL,
+    //       { data: "data", csrfmiddlewaretoken: "{{ csrf_token }}" },
+    //       function (response) {
+    //         if (response === "Success") {
+    //           alert("yay");
+    //         } else {
+    //           alert("failed");
+    //           console.log(response);
+    //         }
+    //       }
+    //     );
+    //   }
+
+    //   $("button").click(function () {
+    //     textOfFile.removeEventListener("change", textToDisplay);
+    //     alert("i am Here");
+    //     getText();
+    //   });
+    </script> -->
+     <!-- <div class="container">
+      <form class="position-center" id="register-form" method="POST">
+        {% csrf_token %}
+        <br />
+        <textarea
+          class="textarea"
+          name="textarea"
+          rows="25"
+          cols="50"
+          id="textarea"
+          placeholder="Enter text here to check plagiarism"
+        ></textarea>
+        
+        <br />
+
+        <h>Click on the "Choose File" button to upload a file:</h>
+        <input
+          type="file"
+          id="fileinput"
+          name="fileinput"
+          accept=".txt, .doc, .docx, .pdf"
+        />
+
+        <button class="form-submit">Check for Plagiarism</button>
+      </form>
+    </div> -->

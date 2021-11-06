@@ -12,7 +12,8 @@ urlpatterns = [
     path('signin.html', views.signin, name='signin'),
     path('index.html', views.index, name='index'),
     path('home.html', views.home, name='home'),
-    path('logoutPage.html', views.logout, name='logout'),
+    path('signin.html', views.logout, name='logout'),
     path('fileupload', views.fileupload, name='fileupload'),
-    url(r'^fileupload/$', views.fileupload, name='fileupload'),
+    path('fileupload/', views.fileupload, name='fileupload1'),
+    path('delete_file/<int:id>/', views.delete_file, name='delete_file'),
     ]

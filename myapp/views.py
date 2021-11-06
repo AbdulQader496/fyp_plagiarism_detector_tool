@@ -65,7 +65,7 @@ def home(request):
 
 def logout(request):
     auth.logout(request)
-    return render (request, 'logoutPage.html')
+    return render (request, 'signin.html')
 
 def fileupload(request):
     # Handel file upload
@@ -77,17 +77,23 @@ def fileupload(request):
             newdoc.save()
 
             # Redirect to the document list after post
-            return HttpResponseRedirect(reverse('fileupload'))
-        else:
-            form = DocumentForm() #A empty, unbound form
+            return redirect('fileupload')
+    else:
+        form = DocumentForm() #A empty, unbound form
             
         # Load documents for the list page
-    documents = Document.objects.all()
+    documents = Document.objects.filter(username=request.user)
 
     # Render list page with the documents and the form
     return render(request,
         'home.html',
         {'documents': documents, 'form': form},
     )  
+
+def delete_file(request, id):    
+    if request.method == 'POST':
+        document = Document.objects.get( id=id)
+        document.delete()
+    return redirect('fileupload')
 
     

@@ -1,17 +1,14 @@
-from typing import Text
-from django.http.response import HttpResponse, HttpResponseNotFound
+from os import read
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_protect
-from django.template import RequestContext
-from django.http import HttpResponseRedirect
-from django.urls import reverse 
 from myapp.models import Document
 from myapp.forms import DocumentForm
+from django.core.files import File
 
 
-# Create your views here.
+#index view. Contain sign up process
 
 def index(request):
    
@@ -34,13 +31,15 @@ def index(request):
                 return redirect('index')
             else: 
                 user = User.objects.create_user(username=username, email=email, password=password)
-                user.save();
+                user.save()
                 return redirect('signin')
         else:
             messages.info(request, 'Password not same')
             return redirect('index')
     else:
         return render(request, 'index.html')
+
+# Contain sign in process
 
 @csrf_protect
 def signin(request):
@@ -60,35 +59,45 @@ def signin(request):
     else:
         return render (request, 'signin.html')
 
+# Contain action after login. Home page
+
 def home(request):
     return render (request, 'home.html')
+
+# Contain logout/signout process
 
 def logout(request):
     auth.logout(request)
     return render (request, 'signin.html')
+
+# Contain process for uploading a file with user id
 
 def fileupload(request):
     # Handel file upload
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
+            #Process for handeling the file snd store it on mongodb
             newdoc = Document(docfile = request.FILES['docfile'])
-            newdoc.username = request.user
+            #Contain process for extracting data in a file and storing them in DB as textfield
+            newdoc.fileData = request.FILES['docfile'].read()
+            newdoc.username = request.user            
             newdoc.save()
-
             # Redirect to the document list after post
             return redirect('fileupload')
     else:
         form = DocumentForm() #A empty, unbound form
             
-        # Load documents for the list page
+    # Load documents for the list page
     documents = Document.objects.filter(username=request.user)
 
     # Render list page with the documents and the form
     return render(request,
         'home.html',
-        {'documents': documents, 'form': form},
-    )  
+        {'documents': documents, 'form': form},) 
+
+
+#Contain process for deleting a file from DB (mongoDB)
 
 def delete_file(request, id):    
     if request.method == 'POST':

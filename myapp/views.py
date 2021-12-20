@@ -1,11 +1,12 @@
-from os import read
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_protect
 from myapp.models import Document
 from myapp.forms import DocumentForm
-from django.core.files import File
+from bs4 import BeautifulSoup
+
+from myproject.plagDetection.main import result
 
 
 #index view. Contain sign up process
@@ -84,7 +85,8 @@ def fileupload(request):
             newdoc.username = request.user            
             newdoc.save()
             # Redirect to the document list after post
-            return redirect('fileupload')
+            result(newdoc.fileData)
+            return render(request, 'report.html')
     else:
         form = DocumentForm() #A empty, unbound form
             
@@ -96,7 +98,7 @@ def fileupload(request):
         'home.html',
         {'documents': documents, 'form': form},) 
 
-
+              
 #Contain process for deleting a file from DB (mongoDB)
 
 def delete_file(request, id):    

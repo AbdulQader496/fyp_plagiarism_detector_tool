@@ -2,18 +2,35 @@ from pymongo import cursor
 import pysimilar
 from pprint import pprint
 from pysimilar import compare
-import pymongo
+from __main__ import *
+from ..plagDetection import similarity
+import sys
 
-#DB connection with djongo
-client = pymongo.MongoClient("mongodb://localhost:27017/")
+def result(textFromFile):
 
-#DB name
-db = client["fypdjangoplag"]
+   print(textFromFile)
 
-#Collection name
-col = db["myapp_document"]
-
+   return (similarity.returnTableWithURL(similarity.report(str(textFromFile))))
 
 
-x = col.find_one()
-print(x)
+
+# if __name__ == '__main__':
+#     try:
+#         arg = sys.argv[1]
+#     except IndexError:
+#         arg = None
+
+#     return_data = result(arg)
+
+# {% extends "home.html" %}
+
+# @app.route('/', methods=['GET', 'POST'])
+# def data():
+#     return render_template('home.html')
+
+
+# @app.route('/report',methods = ['POST', 'GET'])
+# def result():
+#    if request.method == 'POST':
+#       result = request.FILES['docfile'].read()
+#       return (similarity.returnTable(similarity.report(str(result))))

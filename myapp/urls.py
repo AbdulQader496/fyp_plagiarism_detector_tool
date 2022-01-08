@@ -16,5 +16,7 @@ urlpatterns = [
     path('fileupload', views.fileupload, name='fileupload'),
     path('report.html', views.fileupload, name='fileupload1'),
     path('delete_file/<int:id>/', views.delete_file, name='delete_file'),
-    #path('report.html', views.fileupload, name='fileupload')
+    path('report.html', views.returnTableWithURL, name='returnTableWithURL'),
+    path('reportREP.html', views.returnTableWithURL2, name='returnTableWithURL2'),
+    # path('report.html', views.fileupload, name='report'),
     ]

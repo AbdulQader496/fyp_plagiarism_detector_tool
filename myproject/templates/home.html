@@ -33,49 +33,79 @@
 
 
     <!-- List of uploaded documents -->
-    <div>
-      <container>
-        {% if documents %}
-        <ul>
-        {% for document in documents %}
-        <table>
+
+    
+    <table class="table1">
+      <thead>
         <tr>
-          <th><a href="{{ document.docfile.url }}">{{ document.docfile }}</a></th>
+          <th>Name of File</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      
+        
+        
           
-          
-          <th>
-            <form method="post" action="{% url 'delete_file' document.id %}">
-              {% csrf_token %}
-              <button type="submit"  class="button-delete">Delete</button>
-            </form>
-          </th>
-            
-        </tr>  
-        </table>
-        {% endfor %}
-        </ul>
+            <tr> 
+              {% if documents %}
+        
+                {% for document in documents %}
+              
+              <td class="td">
+                
+                <a href="{{ document.docfile.url }}">{{ document.docfile }}</a></td>
+                        
+              
+              <td class="td">
+                <form method="post" action="{% url 'delete_file' document.id %}">
+                  {% csrf_token %}
+                  <button type="submit"  class="button-delete">Delete</button>
+                </form>
+              </td>
+            </tr>  
+            {% endfor %}  
+        
+        
+        
     {% else %}
+    <tr>
+      <td>
         <p>No documents.</p>
+        </td>
+      <td>
+        <p>None</p>
+      </td>
+    </tr>
     {% endif %}
+  </table>
 
         <!-- Upload form. Note enctype attribute! -->
         <form action="{% url 'fileupload' %}"  method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <p>{{ form.non_field_errors }}</p>
-            <p>{{ form.docfile.label }} 
+            <table class="table1">
+              <tr><th>
+                <p>{{ form.non_field_errors }}</p>
+              <p>{{ form.docfile.label }} 
+              
               {{ form.docfile }}
                {{ form.docfile.help_text }}</p>
-          
-            <table>
-              <tr>
-                <th><input type="submit" name="signin" id="signin" class="form-submit" value="Upload" /></th>
-                <th><input type="submit" name="check" id="check" class="form-submit" value="Check for Plagiarism" /></th>                
-              </tr>
-            </table>       
+              </th>
+              </tr>  
+            </table>  
+          <div>
             
-        </form>
-      </container>
-    </div>
+            <table class="table2">
+              <tr>
+                <th><input type="submit" name="signin" id="signin" class="form-submit" value="Upload & Check for Plagiarism" /></form></th>  
+                          
+              </tr>
+            </table>
+          </div>       
+            
+        
+        
+      
+    
 
         
 

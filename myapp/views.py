@@ -1,4 +1,5 @@
 from re import match
+from django.db.models import query
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
@@ -6,8 +7,8 @@ from django.views.decorators.csrf import csrf_protect
 from pandas.core import frame
 from pandas.core.frame import DataFrame
 from requests.api import request
-from myapp.models import Document
-from myapp.forms import DocumentForm
+from myapp.models import Class_fileupload, Document
+from myapp.forms import Class_FileForm, DocumentForm, ClassForm
 from __main__ import *
 import pandas as pd
 import nltk
@@ -22,6 +23,8 @@ import warnings
 import requests
 import json
 import pymongo
+from myapp.models import Class
+
 
 
 def doc_From_REP():
@@ -82,7 +85,7 @@ def signin(request):
         password = request.POST.get('password')
 
         user = auth.authenticate(username=username, password=password)
-        print(username)
+        
         if user is not None:
             auth.login(request, user)
             return redirect('home')
@@ -95,7 +98,9 @@ def signin(request):
 # Contain action after login. Home page
 
 def home(request):
-    return render (request, 'home.html')
+    classes = Class.objects.filter(user=request.user)
+    documents = Document.objects.filter(username=request.user)
+    return render (request, 'home.html', {'classes': classes, 'documents': documents,})
 
 # Contain logout/signout process
 
@@ -104,6 +109,87 @@ def logout(request):
     return render (request, 'signin.html')
 
 # Contain process for uploading a file with user id
+
+def classDiv(request):
+    if request.method == 'POST':
+        form = ClassForm(request.POST)
+        if form.is_valid():
+            
+            user = request.user
+            className = request.POST.get('className')      
+            courseCode = request.POST.get('courseCode')
+            year = request.POST.get('year')
+            semester = request.POST.get('semester')
+            form = Class(user=user,className=className,courseCode=courseCode,year=year,semester=semester)
+            form.save()
+            return render(request, 'success.html')
+    else:
+        form = ClassForm() #A empty, unbound form
+            
+    # Load class for the list page
+    classes = Class.objects.filter(user=request.user)
+    documents = Document.objects.filter(username=request.user)
+    # Render list page with the documents and the form
+    return render(request,
+        'home.html',
+        {'form': form, 'classes':classes, 'documents':documents}) 
+
+def delete_class(request, id):    
+    if request.method == 'POST':
+        classes = Class.objects.get(id=id)
+        classes.delete()
+    return redirect('classDiv')
+
+# def class_fileupload_submit():
+#     class_fileupload_submition = 
+#     return render(, 'submit.html',  )
+
+def class_file_upload_view(request, uuid):
+    
+    class_file_submit = Class_fileupload.objects.filter(classID=uuid)
+    #class_file_sub = Class_fileupload.objects.distinct('classID')
+    return render(request, 'classFileUpload.html', {'class_file_submit': class_file_submit})
+
+def delete_class_file(request, id):    
+    if request.method == 'POST':
+        class_file = Class_fileupload.objects.get(id=id)
+        class_file.delete()
+
+    classes = Class.objects.filter(user=request.user)
+    documents = Document.objects.filter(username=request.user)
+    return render(request,'home.html',{'classes':classes, 'documents':documents})
+
+def class_fileupload(request):
+    print('here 1')
+    if request.method == 'POST':
+        print('here 2')
+        form = Class_FileForm(request.POST, request.FILES)
+        print(form.errors)
+        if form.is_valid():
+            print('here 4')
+            classID = request.POST.get('classID')
+            class_docfile = request.FILES['class_docfile']
+            class_filedata = request.FILES['class_docfile'].read()
+            title = request.POST.get('title')      
+            matricNo = request.POST.get('matricNo')
+            form = Class_fileupload(classID=classID, class_filedata=class_filedata, class_docfile=class_docfile,title=title,matricNo=matricNo)
+            form.save()
+            return render (request, 'success.html')
+        else:
+            return render (request, 'unsuccesful.html')
+    else:
+            form = Class_FileForm() #A empty, unbound form
+            
+    # Load class for the list page
+    #classes_fileform = Class_FileForm.objects.filter(classID=request.classID)
+
+    # Render list page with the documents and the form
+    return render(request,
+        'submit.html',
+        {'form': form}) 
+
+# def listofClass(request):
+#     return render (request, 'listofClass.html')
 
 def fileupload(request):
     global run 
@@ -114,29 +200,34 @@ def fileupload(request):
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
             #Process for handeling the file and store it on mongodb
-            newdoc = Document(docfile = request.FILES['docfile'])
+
+            
             #Contain process for extracting data in a file and storing them in DB as textfield
-            newdoc.fileData = request.FILES['docfile'].read()
-            newdoc.username = request.user            
+            docfile = request.FILES['docfile']
+            fileData = request.FILES['docfile'].read()
+            title = request.POST.get('title') 
+            username = request.user
+            newdoc = Document(docfile=docfile, fileData=fileData, title=title, username=username)            
             newdoc.save()
             # Redirect to the document list after post
             
             plagFromNET(newdoc.fileData)
-            plagFromREP(newdoc.fileData)            
+            # plagFromREP(newdoc.fileData)
+                     
             # context = {plag_object1, plag_object2}
             # frames = [plag_object1, plag_object2]
-            # context = pd.concat(frames)
-            return render(request, 'report.html', {'d': data1, 'b': data2})
+            # context = pd.concat(frames) 'd': data1, 'd': data1,'b': data2
+            return render(request, 'report.html', {})
     else:
         form = DocumentForm() #A empty, unbound form
             
     # Load documents for the list page
     documents = Document.objects.filter(username=request.user)
-
+    classes = Class.objects.filter(user=request.user)
     # Render list page with the documents and the form
     return render(request,
         'home.html',
-        {'documents': documents, 'form': form}) 
+        {'form': form, 'documents': documents, 'classes':classes}) 
 
 
 
@@ -170,35 +261,57 @@ def plagFromNET(textFromFile):
 def plagFromREP(textFromFile):
     #print(textFromFile)
     # print("Rep responding")
+
     return returnTableWithURL2(reportREP(str(textFromFile)))
+
+
 
 # This function tokenize the words in the sentence/s
 
 def purifyTxt(textFromFile):
     words = nltk.word_tokenize(textFromFile)
+    # print(words)
     return (" ".join([word for word in words if word not in stop_words]))
 
 # This function helps to get the similar data/links from internet
 # using bing as search engine. takes 2 parameter 
 
 def webVerify(textFromFile, result_per_sentence):
+    # print(textFromFile)
     sentencess = nltk.sent_tokenize(textFromFile)
+    # print(sentencess)
     matching_sites = []
     for url in searchBing(query = textFromFile, num = result_per_sentence):
+        # print(url)
         matching_sites.append(url)
 
     for sentence in sentencess:
         for url in searchBing(query = sentence, num = result_per_sentence):
             matching_sites.append(url)
-
+            # print('step 2')
+            # print(url)
     return (list(set(matching_sites)))
 
 #Produce the percentage of similarity
 
+
 def Similarity(st1,st2):
+    
     return (SequenceMatcher(None,st1,st2).ratio())*100
 
 def Similarity2(st1,st2):
+
+    # sq = SequenceMatcher(None,st1,st2)
+    # s = sq.find_longest_match(0, len(st1),0,  len(st2))
+    # if (s.size!=0):
+    #     print("here")
+    #     print(st1)
+    #     print (st1[s.b: s.b + s.size]) 
+    # else:
+    #       print ('No longest common sub-string found')
+
+    # print("here 1")
+    # print(s)
     return (SequenceMatcher(None,st1,st2).ratio())*100
 # Creates a dict of similar links 
 
@@ -227,6 +340,8 @@ def reportREP(textFromFile):
     return matches
 
 # Return the table with matching links.
+
+
 
 def returnTableWithURL(dictionary):
 
@@ -267,11 +382,10 @@ warnings.filterwarnings('ignore', module='bs4')
 # Search on the internet
 
 def searchBing(query, num):
-
     url = 'https://www.bing.com/search?q=' + query
     urls = []
 
-    page = requests.get(url, headers= {'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'})
+    page = requests.get(url, headers= {'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36'})
     soup = bs(page.text, 'html.parser')
 
     for link in soup.find_all('a'):

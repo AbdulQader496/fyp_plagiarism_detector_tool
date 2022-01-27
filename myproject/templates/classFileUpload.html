@@ -1,0 +1,84 @@
+{% load static %}
+<html lang="en">
+<head>
+  <style>
+    .button-delete {
+      background: #c52727;
+      color: rgb(253, 253, 253);
+  }
+  </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- Font Icon -->
+    <link
+      rel="stylesheet"
+      href="{% static 'fonts/material-icon/css/material-design-iconic-font.min.css' %}"
+    />
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+</head>
+<body>
+
+    
+    <br>
+    <br>
+
+    <table class="table1">
+        <thead>
+          <tr>
+            
+            <th>Matric</th>
+            <th>Title</th>
+            <th>File</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+            {% if class_file_submit %}
+
+                {% for class_file in class_file_submit %}
+
+                    <tr> 
+                        <td class="td">
+                        
+                        {{ class_file.matricNo }}</td>
+                        
+                        <td class="td">
+                        
+                        {{ class_file.title }}</td>
+                        
+
+                        <td class="td">
+                        
+                        <a href="{{ class_file.class_docfile }}">{{ class_file.class_docfile }}</a></td>
+
+                        <td class="td">
+                          <form method="post" action="{% url 'delete_class_file' class_file.id %}">
+                            {% csrf_token %}
+                            <button type="submit"  class="button-delete">Delete</button>
+                          </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+            <tr>
+              <td>
+               <p>No Data.</p>
+              </td>
+              <td>
+              <p>No Data.</p>
+              </td>
+              <td>
+              <p>No Data.</p>
+              </td>
+              <td>
+              <p>None</p>
+              </td>
+            </tr>
+          {% endif %}
+</body>
+</html>

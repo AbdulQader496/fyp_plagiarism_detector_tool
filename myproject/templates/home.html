@@ -26,77 +26,181 @@
     
   </head>
   <body>
-    {% if user.is_authenticated %}
+  {% if user.is_authenticated %}
     <h1>Welcome, {{user.username}}</h1>
 
     <p><a href="{% url 'logout' %}">Log Out</a></p>
 
+    <p>Here</p>
 
+    <table class="table1">
+      <thead>
+        <tr>
+          <th>Name of Class</th>
+          <th>Class ID</th>
+          <th>Course Code</th>
+          <th>Semester</th>
+          <th>Date Created</th>
+          <th>Year</th>
+          <th>Action</th>
+        </tr>
+      </thead>          
+         
+        {% if classes %}
+        
+          {% for class in classes %}
+            <tr> 
+              <td class="td">
+                
+                {{ class.className }}</td>
+              <td class="td">
+                
+                <a href="{{ class.classID }}">{{ class.classID }}</a></td>
+              <td class="td">
+                
+                {{ class.courseCode }}</td>
+              <td class="td">
+                
+                {{ class.semester }}</td>
+              <td class="td">
+                
+                {{ class.createdDate }}</td>
+              <td class="td">
+                
+                {{ class.year }}
+              </td>
+                        
+              
+              <td class="td">
+                <form method="post" action="{% url 'delete_class' class.id %}">
+                  {% csrf_token %}
+                  <button type="submit"  class="button-delete">Delete</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        {% else %}  
+          
+            
+        
+          
+            <tr>
+              <td>
+               <p>No Data.</p>
+              </td>
+              <td>
+              <p>No Data.</p>
+              </td>
+              <td>
+              <p>No Data.</p>
+              </td>
+              <td>
+              <p>No Data.</p>
+              </td>
+              <td>
+              <p>No Data.</p>
+              </td>
+              <td>
+              <p>No Data.</p>
+              </td>
+              <td>
+              <p>None</p>
+              </td>
+            </tr>
+        {% endif %}
+    </table>
+      <table class="table1">
+    
+        <tr>
+          <th>
+            <p>Create Class</p>
+          </th>
+        </tr>
+        <tr>
+          <th>
+            <form action = "{% url 'classDiv' %}" method="post">
+              {% csrf_token %}
+    
+              <input type="text" name="className" placeholder="Class Name">
+              <input type="text" name="courseCode" placeholder="Course Code">
+              <input type="text" name="year" placeholder="Year">
+              <input type="text" name="semester" placeholder="Semester">
+
+    
+
+              <input type="submit" class="form-submit" value="submit">
+
+            </form>
+          </th>
+        </tr>
+      </table>
+<br>
+<br>
     <!-- List of uploaded documents -->
 
     
     <table class="table1">
       <thead>
         <tr>
+          <th>Title</th>
           <th>Name of File</th>
           <th>Action</th>
         </tr>
-      </thead>
-      
+      </thead>          
+        <tr> 
+          {% if documents %}
         
-        
-          
-            <tr> 
-              {% if documents %}
-        
-                {% for document in documents %}
-              
+            {% for document in documents %}
               <td class="td">
-                
-                <a href="{{ document.docfile.url }}">{{ document.docfile }}</a></td>
-                        
-              
-              <td class="td">
-                <form method="post" action="{% url 'delete_file' document.id %}">
-                  {% csrf_token %}
-                  <button type="submit"  class="button-delete">Delete</button>
-                </form>
+                  
+                {{ document.title }}
               </td>
-            </tr>  
-            {% endfor %}  
-        
-        
-        
-    {% else %}
-    <tr>
-      <td>
-        <p>No documents.</p>
-        </td>
-      <td>
-        <p>None</p>
-      </td>
-    </tr>
-    {% endif %}
-  </table>
+              <td class="td">
+                  
+                <a href="{{ document.docfile.url }}">{{ document.docfile }}</a>
+               </td>                        
+                
+                <td class="td">
+                  <form method="post" action="{% url 'delete_file' document.id %}">
+                    {% csrf_token %}
+                    <button type="submit"  class="button-delete">Delete</button>
+                  </form>
+                </td>
+          </tr>  
+            {% endfor %}
+          {% else %}   
+            
+            <tr>
+              <td>
+                <p>No documents.</p>
+              </td>
+              <td>
+                <p>None</p>
+              </td>
+            </tr>
+          {% endif %}
+    </table>
 
         <!-- Upload form. Note enctype attribute! -->
-        <form action="{% url 'fileupload' %}"  method="post" enctype="multipart/form-data">
-            {% csrf_token %}
+    <form action="{% url 'fileupload' %}"  method="post" enctype="multipart/form-data">
+          {% csrf_token %}
             <table class="table1">
               <tr><th>
-                <p>{{ form.non_field_errors }}</p>
-              <p>{{ form.docfile.label }} 
-              
-              {{ form.docfile }}
-               {{ form.docfile.help_text }}</p>
+                <p>Upload File</p>
+              </th></tr> 
+              <tr><th>
+                <p>Upload .txt file only</p>
+                <input type="file" name="docfile" accept=".txt">
+                <input type="text" name="title" placeholder="Enter Title">
               </th>
-              </tr>  
+              </tr>
+               
             </table>  
           <div>
             
             <table class="table2">
               <tr>
-                <th><input type="submit" name="signin" id="signin" class="form-submit" value="Upload & Check for Plagiarism" /></form></th>  
+                <th><input type="submit" name="signin" class="form-submit" value="Upload & Check for Plagiarism" /></form></th>  
                           
               </tr>
             </table>
@@ -109,8 +213,8 @@
 
         
 
-    {% else %}
+  {% else %}
     <h1>pls login first</h1>
-    {% endif %} {% csrf_token %}
+  {% endif %}
   </body>
 </html>

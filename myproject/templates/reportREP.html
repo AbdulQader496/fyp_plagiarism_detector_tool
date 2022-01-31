@@ -12,29 +12,8 @@
 </head>
 <body>
 
-   
-
-  <h1>Plag from Internet</h1>
-  <table class= "table">
-    <thead>
-      <tr>
-        <th>Links</th>
-        <th>Similarity (%)</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% if d %}
-      {% for i in d %}
-      <tr>
-        <th>{{ i.index}}</th>
-        <td>{{ i.Similarity}}</td>
-      </tr>
-      {% endfor %}
-      {% endif %}
-    </tbody>
-
-  </table>
-  <h1>Plag from Repository</h1>
+  
+  <h1>Plag from Class</h1>
   <table class= "table">
     <thead>
       <tr>
@@ -43,8 +22,8 @@
       </tr>
     </thead>
     <tbody>
-      {% if b %}
-      {% for i in b %}
+      {% if c %}
+      {% for i in c %}
       <tr>
         <th>{{ i.index}}</th>
         <td>{{ i.Similarity}}</td>
@@ -55,18 +34,21 @@
 
   </table>
  
+  <form method="post" action="{% url 'class_file_upload_confirmation' %}" enctype="multipart/form-data" >
 
-    
+    {% csrf_token %}
+    <input type="text" name="classID" placeholder="Class ID" value="{{classID}}">
+        <input type="text" name="matricNo" placeholder="Matric number" value="{{matricNo}}">
+        <input type="text" name="title" placeholder="Title" value="{{title}}">
+        <input type="text" name="class_filedata" accept=".txt" value="{{class_filedata}}">
+        <input type="submit" class="form-submit" value="submit">
+    <!-- <h5>{{class_filedata}}</h5>
+    <h5>{{classID}}</h5>
+    <h5>{{class_docfile}}</h5>
+    <h5>{{matricNo}}</h5>
+    <h5>{{title}}</h5> -->
 
-  
-  {{ plag_object|safe }}
-    
-        
-        
-
-
-    
-    
-    
+    <!-- <button type="submit"  class="form-submit" ></button> -->
+  </form>    
 </body>
 </html>

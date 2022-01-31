@@ -9,6 +9,7 @@ from django.db.models.fields import AutoField
 from numpy import delete
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from shortuuidfield import ShortUUIDField
 
 
 
@@ -29,13 +30,15 @@ class Document(models.Model):
 
 class Class(models.Model):
     
+    
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     className = models.CharField(max_length=100)
     courseCode = models.CharField(max_length=100)
     year = models.CharField(max_length=100)
     semester = models.CharField(max_length=100)
     createdDate = models.DateField(editable=False, auto_now_add=True)
-    classID = models.CharField(max_length=100 ,unique=True, default=uuid4, editable=False)
+    classID = models.CharField(max_length=100 ,unique=True, default=uuid4().hex[:8], editable=False)
 
 #     @receiver(post_save, sender=User)
 #     def create_user_profile(sender, instance, created, **kwargs):

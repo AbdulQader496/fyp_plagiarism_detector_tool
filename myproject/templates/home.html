@@ -22,7 +22,6 @@
 
     <!-- Main css -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-
     
   </head>
   <body>
@@ -31,7 +30,7 @@
 
     <p><a href="{% url 'logout' %}">Log Out</a></p>
 
-    <p>Here</p>
+  
 
     <table class="table1">
       <thead>
@@ -135,6 +134,7 @@
         </tr>
       </table>
 <br>
+{% include 'message.html' %}
 <br>
     <!-- List of uploaded documents -->
 
@@ -206,10 +206,14 @@
             </table>
           </div>       
             
+          <script>
+            setTimeout(function(){
+              if ($('#msg').length > 0) {
+                $('#msg').remove();
+              }
+            }, 3000)
+          </script>   
         
-        
-      
-    
 
         
 

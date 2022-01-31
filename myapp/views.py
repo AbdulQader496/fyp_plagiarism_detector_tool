@@ -40,8 +40,14 @@ def doc_From_REP():
             y.append(doc['fileData'])
     return y
 
+def doc_From_class_fileupload(classID):
+    data_class_fileupload = Class_fileupload.class_filedata.filter(classID=classID)
+    print(data_class_fileupload)
+    return data_class_fileupload
 
 
+def landing_page(request):
+    return render(request, 'landingPage.html')
 
 #index view. Contain sign up process
 
@@ -122,15 +128,17 @@ def classDiv(request):
             semester = request.POST.get('semester')
             form = Class(user=user,className=className,courseCode=courseCode,year=year,semester=semester)
             form.save()
-            return render(request, 'success.html')
+            messages.success(request, 'Class successfully created')
+            return redirect('home')
     else:
+        messages.info(request, 'Class was not created')
         form = ClassForm() #A empty, unbound form
             
     # Load class for the list page
     classes = Class.objects.filter(user=request.user)
     documents = Document.objects.filter(username=request.user)
     # Render list page with the documents and the form
-    return render(request,
+    return redirect(
         'home.html',
         {'form': form, 'classes':classes, 'documents':documents}) 
 
@@ -138,7 +146,8 @@ def delete_class(request, id):
     if request.method == 'POST':
         classes = Class.objects.get(id=id)
         classes.delete()
-    return redirect('classDiv')
+        messages.success(request, 'Class was deleted')
+    return redirect('home')
 
 # def class_fileupload_submit():
 #     class_fileupload_submition = 
@@ -154,31 +163,57 @@ def delete_class_file(request, id):
     if request.method == 'POST':
         class_file = Class_fileupload.objects.get(id=id)
         class_file.delete()
+        messages.success(request, 'File was deleted')
 
-    classes = Class.objects.filter(user=request.user)
-    documents = Document.objects.filter(username=request.user)
-    return render(request,'home.html',{'classes':classes, 'documents':documents})
+    # classes = Class.objects.filter(user=request.user)
+    # documents = Document.objects.filter(username=request.user)
+    return redirect('home')
 
 def class_fileupload(request):
-    print('here 1')
     if request.method == 'POST':
-        print('here 2')
+
         form = Class_FileForm(request.POST, request.FILES)
         print(form.errors)
         if form.is_valid():
-            print('here 4')
             classID = request.POST.get('classID')
             class_docfile = request.FILES['class_docfile']
             class_filedata = request.FILES['class_docfile'].read()
-            title = request.POST.get('title')      
+            title = request.POST.get('title')
             matricNo = request.POST.get('matricNo')
-            form = Class_fileupload(classID=classID, class_filedata=class_filedata, class_docfile=class_docfile,title=title,matricNo=matricNo)
-            form.save()
-            return render (request, 'success.html')
-        else:
-            return render (request, 'unsuccesful.html')
+
+            global dataCLASS
+            dataCLASS = []
+            dataCLASS = Class_fileupload.objects.filter(classID=classID).values_list('class_filedata', flat=True)
+            #datainfo = Class_fileupload.class_filedata(data)
+            
+            print('here 1')
+            if Class_fileupload.objects.filter(classID=classID).exists():
+                print('here 4')
+                if Class_fileupload.objects.filter(matricNo=matricNo).exists():
+                    print('here 5')
+                    messages.info(request, 'You have already submitted. matricno')
+                    return redirect('class_fileupload')
+            
+                else:
+                    plag_from_class(class_filedata)
+                    messages.success(request, 'File was uploaded')
+                    
+                #return redirect ('class_fileupload')
+                # return render (request,'reportREP.html', {'c': data3})
+            else:
+                plag_from_class(class_filedata)
+                messages.success(request, 'File was uploaded')
+                
+            return render (request,'reportrep.html', {'c': data3, 'class_filedata': class_filedata, 'classID': classID, 'class_docfile': class_docfile, 'title': title, 'matricNo': matricNo})
+            # return redirect ('class_file_upload_confirmation')
+            # for doc in data:
+            #     doc.classID
+            #     print(doc)
+            #data_class_fileupload.get(class_filedata)
+            #data_class_fileupload.values("class_filedata")
+            
     else:
-            form = Class_FileForm() #A empty, unbound form
+        form = Class_FileForm() #A empty, unbound form
             
     # Load class for the list page
     #classes_fileform = Class_FileForm.objects.filter(classID=request.classID)
@@ -190,6 +225,30 @@ def class_fileupload(request):
 
 # def listofClass(request):
 #     return render (request, 'listofClass.html')
+def class_file_upload_confirmation(request):
+    print('here 2')
+    form = Class_FileForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid:
+            classID = request.POST.get('classID')
+            #class_docfile = request.FILES['class_docfile']
+            class_filedata = request.POST.get('class_filedata')
+            title = request.POST.get('title')
+            matricNo = request.POST.get('matricNo')
+        
+            form = Class_fileupload(classID=classID, class_filedata=class_filedata,title=title,matricNo=matricNo)
+            form.save()
+            messages.success(request, 'File was uploaded')
+            return redirect( 'class_fileupload')
+                #     #return redirect ('class_fileupload')
+                #     # return render (request,'reportREP.html', {'c': data3})
+            
+                # messages.success(request, 'File was uploaded')
+                # return render(request, 'submit.html')
+                # #return redirect ('class_fileupload')
+                # #return render (request,'reportREP.html', {'c': data3})
+    else:
+        print('error')
 
 def fileupload(request):
     global run 
@@ -212,12 +271,12 @@ def fileupload(request):
             # Redirect to the document list after post
             
             plagFromNET(newdoc.fileData)
-            # plagFromREP(newdoc.fileData)
+            plagFromREP(newdoc.fileData)
                      
             # context = {plag_object1, plag_object2}
             # frames = [plag_object1, plag_object2]
             # context = pd.concat(frames) 'd': data1, 'd': data1,'b': data2
-            return render(request, 'report.html', {})
+            return render(request, 'report.html', {'a': data1,'b': data2})
     else:
         form = DocumentForm() #A empty, unbound form
             
@@ -264,7 +323,8 @@ def plagFromREP(textFromFile):
 
     return returnTableWithURL2(reportREP(str(textFromFile)))
 
-
+def plag_from_class(textFromFile):
+    return returnTableWithURL3(reportCLASS(str(textFromFile)))
 
 # This function tokenize the words in the sentence/s
 
@@ -339,6 +399,18 @@ def reportREP(textFromFile):
     
     return matches
 
+def reportCLASS(textFromFile):
+    
+    doc = dataCLASS 
+    
+    matches= {}
+    for i in range(len(doc)):
+        matches[doc[i]] = Similarity2(textFromFile, doc[i])
+    
+    matches = {a: b for a, b in sorted(matches.items(), key=lambda item: item[1], reverse=True)}
+    
+    return matches
+
 # Return the table with matching links.
 
 
@@ -354,7 +426,7 @@ def returnTableWithURL(dictionary):
     data1 = []
     data1 = json.loads(json_records)
     global  plag_object1
-    plag_object1 = {'d' : data1}
+    plag_object1 = {'a' : data1}
     #print(plag_object1)
     #print(plag_object)
     # plag_object = df
@@ -370,6 +442,22 @@ def returnTableWithURL2(dictionary):
     data2 = json.loads(json_records)
     global  plag_object2
     plag_object2 = {'b' : data2}
+    
+    #print(plag_object)
+    # plag_object = df
+    
+    # print(plag_object2)
+    return plag_object2
+
+def returnTableWithURL3(dictionary):
+
+    df = pd.DataFrame({'Similarity':dictionary})
+    json_records = df.reset_index().to_json(orient='records')
+    global data3
+    data3 = []
+    data3 = json.loads(json_records)
+    global  plag_object2
+    plag_object2 = {'c' : data3}
     
     #print(plag_object)
     # plag_object = df

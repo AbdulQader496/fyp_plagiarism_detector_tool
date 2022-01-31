@@ -248,7 +248,11 @@ body {
   -webkit-align-items: center;
   -o-align-items: center;
   -ms-align-items: center; }
-
+  
+.about_tool{
+  color: #1da0f2;
+  font-weight: 400;
+}
 .position-center {
   position: absolute;
   top: 50%;
@@ -653,7 +657,34 @@ table.table1 td{
   margin-right: auto;
   width: auto;
 }
-  
+
+/* .alert-unsuccess {
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+  text-align: center;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.35rem;
+  color: #680f0f;
+  background-color: #f4d2d2;
+  border-color: #f0bfbf;
+}
+
+.alert-success {
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+  text-align: center;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.35rem;
+  color: #0f6848;
+  background-color: #d2f4e8;
+  border-color: #bff0de;
+} */
 
 
   

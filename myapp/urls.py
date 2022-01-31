@@ -8,7 +8,8 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('',views.landing_page),
+    path('index.html', views.index, name='index'),
     path('signin.html', views.signin, name='signin'),
     path('index.html', views.index, name='index'),
     path('home.html', views.home, name='home'),
@@ -19,13 +20,14 @@ urlpatterns = [
     path('delete_class/<int:id>/', views.delete_class, name='delete_class'),
     path('delete_class_file/<int:id>/', views.delete_class_file, name='delete_class_file'),
     path('report.html', views.returnTableWithURL, name='returnTableWithURL'),
-    path('reportREP.html', views.returnTableWithURL2, name='returnTableWithURL2'),
+    # path('reportREP.html', views.returnTableWithURL2, name='returnTableWithURL2'),
     path('classDiv', views.classDiv, name='classDiv'),
     path('class_fileupload', views.class_fileupload, name='class_fileupload'),
     path('submit.html', views.class_fileupload, name='class_fileupload'),
-    #path('success.html', views.class_fileupload, name='class_fileupload'),
+    path('reportrep.html', views.class_file_upload_confirmation,name='class_file_upload_confirmation'),
+    #path('success.html', views.class_fileupload, name='class_fileupload')
     #path('unsuccesful.html', views.class_fileupload, name='class_fileupload'),
     path('classFileUpload', views.class_file_upload_view, name='class_file_upload_view'),
-    path('<uuid>',  views.class_file_upload_view, name='class_file_upload_view')
-    # path('report.html', views.fileupload, name='report'),
+    path('<uuid>',  views.class_file_upload_view, name='class_file_upload_view'),
+    # path('report.html', views.fileupload, name='report'),,
     ]

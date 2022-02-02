@@ -9,6 +9,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link
+    rel="stylesheet"
+    href="{% static 'fonts/material-icon/css/material-design-iconic-font.min.css' %}"
+  />
+
+  <!-- Main css -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 </head>
 <body>
 
@@ -37,11 +44,28 @@
   <form method="post" action="{% url 'class_file_upload_confirmation' %}" enctype="multipart/form-data" >
 
     {% csrf_token %}
-    <input type="text" name="classID" placeholder="Class ID" value="{{classID}}">
-        <input type="text" name="matricNo" placeholder="Matric number" value="{{matricNo}}">
-        <input type="text" name="title" placeholder="Title" value="{{title}}">
-        <input type="text" name="class_filedata" accept=".txt" value="{{class_filedata}}">
-        <input type="submit" class="form-submit" value="submit">
+    <input type="text" name="classID" placeholder="Class ID" value="{{classID}}" hidden>
+    <input type="text" name="matricNo" placeholder="Matric number" value="{{matricNo}}" hidden>
+    <input type="text" name="title" placeholder="Title" value="{{title}}" hidden>
+    <input type="text" name="class_filedata" value="{{class_filedata}}" hidden>
+    <table class="table1">
+      <tr><th>
+        <p>Confirm the submission by uploading the file again or press back</p>
+      </th></tr> 
+      <tr><th>
+        <input type="file" name="class_docfile" accept=".txt" value="{{class_docfile}}">
+      </th>
+      </tr>
+       
+    </table> 
+    <table class="table2">
+      <tr>
+        <th><input type="submit" class="form-submit" value="submit"></th>  
+                  
+      </tr>
+    </table>
+    
+    
     <!-- <h5>{{class_filedata}}</h5>
     <h5>{{classID}}</h5>
     <h5>{{class_docfile}}</h5>

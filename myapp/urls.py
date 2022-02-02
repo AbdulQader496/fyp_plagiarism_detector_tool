@@ -28,6 +28,6 @@ urlpatterns = [
     #path('success.html', views.class_fileupload, name='class_fileupload')
     #path('unsuccesful.html', views.class_fileupload, name='class_fileupload'),
     path('classFileUpload', views.class_file_upload_view, name='class_file_upload_view'),
-    path('<uuid>',  views.class_file_upload_view, name='class_file_upload_view'),
+    path('<uuid>/',  views.class_file_upload_view, name='class_file_upload_view'),
     # path('report.html', views.fileupload, name='report'),,
     ]

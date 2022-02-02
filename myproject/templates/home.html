@@ -25,10 +25,24 @@
     
   </head>
   <body>
-  {% if user.is_authenticated %}
-    <h1>Welcome, {{user.username}}</h1>
 
-    <p><a href="{% url 'logout' %}">Log Out</a></p>
+
+  {% if user.is_authenticated %}    
+    <div class="display-flex">
+            
+      <div class="display-flex">
+        <h1>Welcome, {{user.username}}</h1>
+      </div>
+      <div class="display-flex-center" >
+          <img style = "position:absolute;" src="static/images/logo1fyp.png">
+      </div>
+      <div class="display-flex">
+        <p><a href="{% url 'logout' %}">Log Out</a></p></a>
+      </div>
+      
+     
+     
+  </div>
 
   
 
@@ -171,6 +185,9 @@
           {% else %}   
             
             <tr>
+              <td>
+                <p>None</p>
+              </td>
               <td>
                 <p>No documents.</p>
               </td>

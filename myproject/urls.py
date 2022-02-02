@@ -21,12 +21,15 @@ from django.conf.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf import settings
-from django.conf.urls.static import static
+from django.conf.urls import url
+from django.views.static import serve
+from myproject.settings import MEDIA_ROOT
 
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('myapp.urls')),
+    #url(r'^download/(?<path>.*)$',serve,{'document_root':settings.MEDIA_ROOT}),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

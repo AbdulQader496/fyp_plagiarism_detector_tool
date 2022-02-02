@@ -1,0 +1,562 @@
+
+
+
+
+MMIVER8ITI P£fTRA MALAYSIA
+
+
+
+
+
+Final Year Project Proposal (SSE 4949)
+
+Title: Yield Management System For Sports Centre
+
+
+Name: Nur-A-Alam Mohammad Arshid Nippon Matric Number: 186058
+Supervisor: Dr. Khaironi Yatim Sharif Semester/ Sesi: Semester 1 2018/2019 Date: 31/08/2018
+
+
+Table of Contents
+
+Table of Contents
+Chapter 1                                            3
+1.1 Introduction.                                      3
+1.2 Problem Statement.                                   4
+1.3 Objectives.                                        5
+1.4 Project Scope                                       5
+Chapter 2.                                            7
+2.1 Literature Review.                                    7
+Chapter 3                                            10
+3.1 Methodology                                      10
+4.0 Expected Results.                                     11
+5.0 Conclusion.                                         11
+6.0 Gantt Chart.                                         12
+7.0 References.                                         13
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2
+
+
+Chapter 1
+
+
+1.1 Introduction
+
+
+A sports center is a place where various sports facilities are available. On sports center people 
+are able to play different sports. Sports center provide different types of sports facilities to 
+sportsmen or citizens. Peoples are able to get different sports facilities due to sports center.
+The tradition of sports facilities construction dates 2500 years back (to Egypt, China, Greece), 
+and since then a particular stress has been on esthetic and functional quality. What has been 
+changed in the concept of construction and purpose of facilities, is conditioned by latter 
+cultural, technological and social changes. Today, sports facilities management is also focused on 
+the efficiency of use of this resource by its owner and manager, but also the expectations in 
+regard to entertainment, comfort, and overall user satisfaction (Dugalid, 2005).
+
+There is lot of sports center available now a days. Most of Sports center facing problem to get 
+more revenue from their business. During peak hour demand is always high but other time demand 
+become very low. Due to less engaging with user its become very hard to get more revenue for sports 
+center.
+On the other hand, people are very busy with their work. It's very hard for them to go physically 
+to any sports center and find available time to play their favorite sport. Due to less time to 
+search query from sports center people also don't use sports center as easily which also causes of 
+less revenue for sports center.
+
+This research project focus on developing a system that provide opportunity to sports center to 
+earn more many as well as more engaging with sports lovers. it understands, anticipates and reacts 
+to the behavior of customer to maximize revenue for the sports center. This takes into account the 
+operating costs and aids Sports center to optimize prices and allocate capacity to maximize 
+expected revenues
+
+
+
+3
+
+
+
+
+
+
+
+1.2 Problem Statement
+
+According to XY sports center their facilities are world class, but they face problem to get more 
+revenue. On weekend their sports center facilities are all time full and some user are all the time 
+asking for facilities to rent on weekend, but they are unable to give them chance to use it. 
+Despite high demand on weekend they are only able to earn certain revenue. They are willing to earn 
+more revenue using this high demand time. On the other during off peak hour they don't get enough 
+customer to book their facilities, which cause less revenue for them, because still they have a 
+maintain cost for that time also. They also face problem, when some customer cancels their booking. 
+They are unable to engage with other queue customer, who previously looking for same facilities for 
+same time and had a wish to use that. At on the other week days demand of sports facilities become 
+low which also cause less revenue. There is also some facilities which are always empty but people 
+are unable to use sports facilities due to high pricing. Some people are come to sports center for 
+playing any facilities but all the facilities price are same that's why they don't book. And sports 
+center payment option is also complicated which also reduce interest of customer to use sports 
+center. All these causes totally reduce the of their sports center.
+On the other hand, some people are want to use sports facilities but due to high demand and out of 
+price range on weekend they can't use sports facilities. They have a wish to use sports center, but 
+they can't. And even some people are failing to book sports facilities on weekend, but they don't 
+know does the facility is available or not.
+
+
+
+
+4
+
+
+
+
+
+
+1.3 Objectives
+
+
+The objective of Yield Management System for Sports Centre are:
+
+1. To give opportunity to earn maximum revenue to sports center.
+2. To provide opportunity to engaging more customer during off peak hour.
+3. To create chance for sports center to fill sudden empty slot by providing chance of booking to 
+next queue customers.
+4. To facilitate customer with a lower price during weekdays.
+5. To design a user-friendly web based online booking system with easy payment option.
+
+
+
+
+
+
+
+1.4 Project Scope
+
+To successfully achieve the objective of this project, the scope is focused mainly on software 
+development. To develop this system some modern web technology will be used to achieve project 
+objective. This system will provide opportunity to sports center to optimize prices and allocate 
+capacity to maximize expected revenues. it will understands, anticipates and reacts to the behavior 
+of customer to maximize revenue for the organization. This takes into account the operating costs 
+and aids Sports center to optimize prices and allocate capacity to maximize expected revenues. The 
+optimization will done on two levels in Sports center:
+•  Time: Pricing of facilities will be divided based on the peak hour and off-peak hour. Fees for 
+during off peak hours will be lower than peak hours. A reservation done at a later date will be 
+charged more than the one done earlier — for the same facilities).
+5
+
+
+
+•  Day: Pricing of facilities will be divided based on the weekdays and weekend.
+
+It will adjust pricing according to demand of the facilities.
+
+The effective method however is to combine these two levels for all facilities so that both the 
+time and the days are effectively priced for all the facilities.
+
+
+This system will provide sports center to fill their suddenly empty slot by giving a notification 
+to queue customer who is willing to book that specific facility on exactly same time and date. It 
+will reduce the loss of not having customer on a expected time and will increase revenue of the 
+sports center.
+Due to having less price on a weekdays interested people will get chance to use sports facilities 
+and will add more revenue for sports center. A online payment system will solve the complicated 
+payment problem and people will engage more.
+
+Some modern technologies will be used to build this system. Technologies that will be used in this 
+system are.
+1. Laravel (php framework)
+
+2. Bootstrap
+
+3. Node.js
+
+4. Axios.js
+
+5. Vue.js
+
+6. mysql
+
+These technologies will provide better user interfaces and smooth and dynamic websites.
+
+
+
+
+
+6
+
+
+
+
+Chapter 2
+
+2.1 Literature Review
+
+Literature review is important to this project because it will provide an overview of what is going 
+to be developed. It also helps to identify what others has done in their projects, identifying the 
+strength and weakness so there is some improvement can be done to this online Yield Management 
+System For Sports Centre booking system.
+Openplay.net already built a sports center facility booking system for sports center. They provide 
+user opportunity to book sports facility, online payment option, cancelation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Figure 2.1.1 Openplay
+
+
+The Hong Kong polytechnic University made a sports facility booking system, known as “CENTRE 
+STARS". On this system they provide opportunity to the user to book their sports facility inside 
+their campus and only for their registered user.
+7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Sports Facllities Booking System
+
+
+
+
+
+
+
+Figure 2.1.2 CENTRE STARS
+
+
+SKEDDA is also build a sports facility booking system. They provide facility booking system for any 
+sports center. They also provide opportunity to sports center to manage user of their system.
+
+
+
+
+
+
+
+
+
+
+
+
+Figure 2.1.3 SKEEDA
+
+
+8
+
+
+
+Sports booker is another available system which provide any organization to manage their sports 
+facilities and booking of those facilities.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Figure 2.1.4 Sports booker system
+
+
+City university of Hong Kong also has a sports facility booking system. They built it to facilitate 
+students and staffs.
+
+
+
+
+
+So based on all the literature provided, most of the system that has been develop is either too 
+complex or contains less components that makes the system incomplete. In the end, for this project 
+I'll try to make a much simpler approach for this system but still functional according to the 
+objectives.
+
+
+
+
+9
+
+
+
+Chapter 3
+
+3.1 Methodology
+
+
+
+Methodology to be used in Yield Management System For Sports Centre booking system is Agile 
+software development  methodology specially Scrum Project Management. For our system we will focus 
+on adaptive planning, evolutionary development and delivery, continues improvement, and a 
+time-boxed period of time to complete a body of work. By using Scrum Project Management, we will 
+get chance to provide rapid and flexible response to change.
+Before actually building the system, a discussion has been done with the sports center authority 
+who will be the user of this system. Based on this, the new requirement is identified, and a 
+proposal is made to increase revenue as well as provide user more chances to get better experience.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+10
+
+
+
+
+4.0 Expected Results
+
+Based on the planning of the development, Yield Management System For Sports Centre will be able 
+to:
+
+• System must be able to optimize pricing of facilities based on time and days.
+•  System must be able to send notification of sudden empty of facilities to queue customer.
+
+•  The system must be able to increase revenue to the sports center.
+
+• The system must be able to optimize pricing on a high demand period.
+
+
+
+5.0 Conclusion
+
+Yield Management System For Sports Centre is develop to provide opportunity to sports center to 
+earn more revenue as well as provide opportunity to customer to use sports facilities. All the user 
+interfaces of this system is easy to understand and user can easily understand the systems 
+functions.
+
+Project objectives and scope is followed specifically to ensure that the develop system is fully 
+functioning and runs smoothly. Overall, this project proposal will only describe the early stages 
+in making this project before a more thorough study is done.
+
+
+
+
+
+
+
+
+
+11
+
+
+
+6.0 Gantt Chart
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+12
+
+
+
+7.0 References
+
+1.   http://braziI.cityu.edu.hk:8754/fbi/owa/fbi web first.showlndoors. [online]
+
+2.  http://www.polyu.edu.hk/stars/sports/sports-facilities/sports-facilities- booking-system 
+[online]
+3.  http://openpIay.net/sports-venue-management-software [online]
+
+4.  http://www.sports-booker.com . [online]
+
+5.   https://www.skedda.com/home/online-court-booking-system[online]
+
+6.   Dugalié, S.  (2005). Finansijski i marketins*ki aspekti strategija u sportu.
+
+Beograd: Vi*sa *skola za sportske trenere.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+13
+
+
+
+Prepared by:
+
+
+
+
+
+(Nur-A-Alam Mohammad Arshid Nippon)
+Date:
+Endorsed by:
+
+
+
+
+
+
+(Dr. Khaironi Yatim Sharifj Date:
+Stamp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+14

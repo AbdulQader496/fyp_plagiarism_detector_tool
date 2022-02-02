@@ -18,6 +18,21 @@
 
 </head>
 <body>
+  <div class="display-flex">
+            
+    <div class="display-flex">
+      <h1>Welcome</h1>
+    </div>
+    <div class="display-flex-center" >
+        <img style = "position:absolute;" src="static/images/logo1fyp.png">
+    </div>
+    <div class="display-flex">
+      <a href="signin.html"><span>Login</span></a></a>
+    </div>
+    
+   
+   
+</div>
   <table class="table1">
     
     <tr>
@@ -41,6 +56,15 @@
     </tr>
   </table>
   {% include 'message.html' %}
+
+  <script>
+    setTimeout(function(){
+      if ($('#msg').length > 0) {
+        $('#msg').remove();
+      }
+    }, 3000)
+  </script>   
+
 
   
 </body>

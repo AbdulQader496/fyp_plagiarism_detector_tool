@@ -1,5 +1,7 @@
 from re import match
+from urllib import response
 from django.db.models import query
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
@@ -24,6 +26,12 @@ import requests
 import json
 import pymongo
 from myapp.models import Class
+
+import os
+from django.conf import settings
+from django.http import HttpResponse, Http404
+import mimetypes
+
 
 
 
@@ -231,12 +239,12 @@ def class_file_upload_confirmation(request):
     if request.method == 'POST':
         if form.is_valid:
             classID = request.POST.get('classID')
-            #class_docfile = request.FILES['class_docfile']
+            class_docfile = request.FILES['class_docfile']
             class_filedata = request.POST.get('class_filedata')
             title = request.POST.get('title')
             matricNo = request.POST.get('matricNo')
         
-            form = Class_fileupload(classID=classID, class_filedata=class_filedata,title=title,matricNo=matricNo)
+            form = Class_fileupload(classID=classID,class_docfile=class_docfile,class_filedata=class_filedata,title=title,matricNo=matricNo)
             form.save()
             messages.success(request, 'File was uploaded')
             return redirect( 'class_fileupload')
@@ -298,6 +306,15 @@ def delete_file(request, id):
         document = Document.objects.get( id=id)
         document.delete()
     return redirect('fileupload')
+
+def download(request, path):
+    file_path = os.path.join(settings.MEDIA_ROOT, path)
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+    raise Http404
 
 
 nltk.download('punkt')
@@ -471,6 +488,7 @@ warnings.filterwarnings('ignore', module='bs4')
 
 def searchBing(query, num):
     url = 'https://www.bing.com/search?q=' + query
+    print(url)
     urls = []
 
     page = requests.get(url, headers= {'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36'})
@@ -487,7 +505,7 @@ def searchBing(query, num):
 # Extraxt text from the internet (from similar website)
 
 def extractText(url):
-    page = requests.get(url)
+    page = requests.get(url, headers={'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36'})
     soup = bs(page.text, 'html.parser')
     return soup.get_text()
 
